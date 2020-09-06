@@ -36,8 +36,9 @@ Pass a filename of something in your $HOME/.totp directory.
 			return
 		}
 
+		noSpaceString := strings.ReplaceAll(string(out), " ", "")
 		otp, err := totp.GenerateCode(
-			string(out),
+			noSpaceString,
 			time.Now(),
 		)
 
