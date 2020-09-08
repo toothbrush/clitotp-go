@@ -30,7 +30,7 @@ Pass a filename of something in your $HOME/.totp directory.
 		}
 
 		file := path.Join(prefix, keyname)
-		out, err := exec.Command("gpg", "--decrypt", file).Output()
+		out, err := exec.Command("gpg", "--batch", "--decrypt", file).Output()
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "%s\n", err)
 			return
