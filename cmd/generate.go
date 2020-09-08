@@ -16,7 +16,7 @@ import (
 )
 
 var generateCmd = &cobra.Command{
-	Use:   "generate KEY",
+	Use:   "generate KEYNAME",
 	Short: "Generate a TOTP",
 	Args:  cobra.ExactArgs(1),
 	Long: `
