@@ -28,12 +28,12 @@ website you've joined, and encrypt it in your TOTP store.
 	Run: func(cmd *cobra.Command, args []string) {
 		prefix := "/home/paul/.totp/"
 
-		if strings.HasSuffix(args[0], ".gpg") {
-			fmt.Fprintln(os.Stderr, "Don't add .gpg to the end of the argument, we'll do that.")
-			return
+		keyname := args[0]
+		if !strings.HasSuffix(keyname, ".gpg") {
+			keyname = keyname + ".gpg"
 		}
 
-		filename := path.Join(prefix, args[0]+".gpg")
+		filename := path.Join(prefix, keyname)
 
 		fmt.Fprintf(os.Stderr, "Will insert into: %s\n", filename)
 
