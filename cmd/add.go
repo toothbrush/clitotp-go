@@ -12,8 +12,10 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -26,7 +28,12 @@ Spawn an interactive session to capture a secret, e.g. from a new
 website you've joined, and encrypt it in your TOTP store.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		prefix := "/home/paul/.totp/"
+		home, err := homedir.Dir()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		prefix := filepath.Join(home, ".totp")
 
 		keyname := args[0]
 		if !strings.HasSuffix(keyname, ".gpg") {
