@@ -21,6 +21,9 @@ Note that symlinks are not dealt with.  So don't have symlinks, i
 guess.
 `,
 	Args: cobra.NoArgs,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		totps, err := files.ListTOTPs()
 		if err != nil {

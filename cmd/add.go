@@ -27,6 +27,9 @@ var addCmd = &cobra.Command{
 Spawn an interactive session to capture a secret, e.g. from a new
 website you've joined, and encrypt it in your TOTP store.
 `,
+	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
+		return nil, cobra.ShellCompDirectiveNoFileComp
+	},
 	Run: func(cmd *cobra.Command, args []string) {
 		home, err := homedir.Dir()
 		if err != nil {
