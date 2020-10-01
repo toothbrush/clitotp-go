@@ -20,6 +20,7 @@ var listCmd = &cobra.Command{
 Note that symlinks are not dealt with.  So don't have symlinks, i
 guess.
 `,
+	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		totps, err := files.ListTOTPs()
 		if err != nil {
