@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 )
 
@@ -21,9 +22,14 @@ Note that symlinks are not dealt with.  So don't have symlinks, i
 guess.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		prefix := "/home/paul/.totp/"
+		home, err := homedir.Dir()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		prefix := strings.Join([]string{filepath.Join(home, ".totp"), string(filepath.Separator)}, "")
 
-		err := filepath.Walk(prefix,
+		err = filepath.Walk(prefix,
 			func(path string, info os.FileInfo, err error) error {
 				if err != nil {
 					return err
