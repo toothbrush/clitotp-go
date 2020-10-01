@@ -17,6 +17,7 @@ import (
 
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var addCmd = &cobra.Command{
@@ -43,6 +44,13 @@ website you've joined, and encrypt it in your TOTP store.
 			keyname = keyname + ".gpg"
 		}
 
+		recipient := viper.GetString("recipient")
+
+		if recipient == "" {
+			log.Panic("Please set a GPG recipient to encrypt to!")
+		}
+		fmt.Fprintf(os.Stderr, "Encrypting to %s.\n", recipient)
+
 		filename := path.Join(prefix, keyname)
 
 		fmt.Fprintf(os.Stderr, "Will insert into: %s\n", filename)
@@ -53,7 +61,6 @@ website you've joined, and encrypt it in your TOTP store.
 		// Ask the user for the new secret:
 		fmt.Scanln(&newSecret)
 
-		recipient := "0xF2846B1A0D32C442"
 		gpgCmd := exec.Command("gpg", "--batch", "--encrypt", "--recipient", recipient)
 		stdin, err := gpgCmd.StdinPipe()
 		if err != nil {
@@ -93,4 +100,6 @@ website you've joined, and encrypt it in your TOTP store.
 
 func init() {
 	rootCmd.AddCommand(addCmd)
+	addCmd.PersistentFlags().StringP("recipient", "r", "", "GPG key id to encrypt TOTP value")
+	viper.BindPFlag("recipient", addCmd.PersistentFlags().Lookup("recipient"))
 }
