@@ -8,9 +8,11 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 	"strings"
 	"time"
 
+	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pquerna/otp/totp"
 	"github.com/spf13/cobra"
 )
@@ -23,7 +25,13 @@ var generateCmd = &cobra.Command{
 Pass a filename of something in your $HOME/.totp directory.
 `,
 	Run: func(cmd *cobra.Command, args []string) {
-		prefix := "/home/paul/.totp"
+		home, err := homedir.Dir()
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+		prefix := filepath.Join(home, ".totp")
+
 		keyname := args[0]
 		if !strings.HasSuffix(keyname, ".gpg") {
 			keyname = keyname + ".gpg"
