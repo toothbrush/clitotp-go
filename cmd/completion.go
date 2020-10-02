@@ -28,13 +28,13 @@ var completionCmd = &cobra.Command{
 
 Bash:
 
-$ source <(yourprogram completion bash)
+$ source <(clitotp-go completion bash)
 
 # To load completions for each session, execute once:
 Linux:
-  $ yourprogram completion bash > /etc/bash_completion.d/yourprogram
+  $ clitotp-go completion bash > /etc/bash_completion.d/clitotp-go
 MacOS:
-  $ yourprogram completion bash > /usr/local/etc/bash_completion.d/yourprogram
+  $ clitotp-go completion bash > /usr/local/etc/bash_completion.d/clitotp-go
 
 Zsh:
 
@@ -44,16 +44,16 @@ Zsh:
 $ echo "autoload -U compinit; compinit" >> ~/.zshrc
 
 # To load completions for each session, execute once:
-$ yourprogram completion zsh > "${fpath[1]}/_yourprogram"
+$ clitotp-go completion zsh > "${fpath[1]}/_clitotp-go"
 
 # You will need to start a new shell for this setup to take effect.
 
 Fish:
 
-$ yourprogram completion fish | source
+$ clitotp-go completion fish | source
 
 # To load completions for each session, execute once:
-$ yourprogram completion fish > ~/.config/fish/completions/yourprogram.fish
+$ clitotp-go completion fish > ~/.config/fish/completions/clitotp-go.fish
 `,
 	DisableFlagsInUseLine: true,
 	ValidArgs:             []string{"bash", "zsh", "fish", "powershell"},
