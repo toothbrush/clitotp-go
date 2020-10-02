@@ -60,7 +60,7 @@ website you've joined, and encrypt it in your TOTP store.
 			// something exists at `filename` path.
 			overwrite := cli.YNConfirm("File exists.  Overwrite?")
 			if !overwrite {
-				fmt.Println("Aborting.")
+				fmt.Fprintln(os.Stderr, "Aborting.")
 				os.Exit(0)
 			}
 		}
