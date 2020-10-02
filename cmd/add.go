@@ -18,6 +18,8 @@ import (
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
+
+	"github.com/toothbrush/clitotp-go/cli"
 )
 
 var addCmd = &cobra.Command{
@@ -53,7 +55,16 @@ website you've joined, and encrypt it in your TOTP store.
 
 		filename := path.Join(prefix, keyname)
 
-		fmt.Fprintf(os.Stderr, "Will insert into: %s\n", filename)
+		if _, err := os.Stat(filename); err == nil {
+			// something exists at `filename` path.
+			overwrite := cli.YNConfirm("File exists.  Overwrite?")
+			if !overwrite {
+				fmt.Println("Aborting.")
+				os.Exit(0)
+			}
+		}
+
+		fmt.Fprintf(os.Stderr, "Will store secret in: %s\n", filename)
 
 		var newSecret string
 
