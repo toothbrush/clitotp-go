@@ -54,6 +54,7 @@ website you've joined, and encrypt it in your TOTP store.
 		fmt.Fprintf(os.Stderr, "Encrypting to %s.\n", recipient)
 
 		filename := path.Join(prefix, keyname)
+		fmt.Fprintf(os.Stderr, "Will store secret in: %s\n", filename)
 
 		if _, err := os.Stat(filename); err == nil {
 			// something exists at `filename` path.
@@ -63,8 +64,6 @@ website you've joined, and encrypt it in your TOTP store.
 				os.Exit(0)
 			}
 		}
-
-		fmt.Fprintf(os.Stderr, "Will store secret in: %s\n", filename)
 
 		var newSecret string
 
