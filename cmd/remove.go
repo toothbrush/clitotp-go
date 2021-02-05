@@ -14,6 +14,7 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/toothbrush/clitotp-go/cli"
+	"github.com/toothbrush/clitotp-go/files"
 )
 
 var Force = false
@@ -26,7 +27,18 @@ var removeCmd = &cobra.Command{
 Sometimes, you just don't need a particular secret anymore.  Remove it!
 `,
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
-		return nil, cobra.ShellCompDirectiveNoFileComp
+
+		if len(args) != 0 {
+			return nil, cobra.ShellCompDirectiveNoFileComp
+		}
+
+		totps, err := files.ListTOTPs()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+
+		return totps, cobra.ShellCompDirectiveNoFileComp
 	},
 	Run: func(cmd *cobra.Command, args []string) {
 		home, err := homedir.Dir()
