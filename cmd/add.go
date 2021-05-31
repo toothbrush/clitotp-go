@@ -69,7 +69,12 @@ website you've joined, and encrypt it in your TOTP store.
 
 		fmt.Fprint(os.Stderr, "Give me the secret (C-c cancels): ")
 		// Ask the user for the new secret:
-		fmt.Scanln(&newSecret)
+		scanner := bufio.NewScanner(os.Stdin)
+		if scanner.Scan() {
+			newSecret = scanner.Text()
+		} else {
+			log.Panic("oh no, couldn't read input.")
+		}
 
 		gpgCmd := exec.Command("gpg", "--batch", "--encrypt", "--recipient", recipient)
 		stdin, err := gpgCmd.StdinPipe()
