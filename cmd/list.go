@@ -15,6 +15,7 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
+	Aliases: []string{"ls"},
 	Short: "List all the TOTPs we know about",
 	Long: `
 Note that symlinks are not dealt with.  So don't have symlinks, i
