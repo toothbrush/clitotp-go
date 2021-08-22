@@ -22,7 +22,7 @@ var Force = false
 var removeCmd = &cobra.Command{
 	Use:   "rm KEYNAME",
 	Short: "Remove a secret from the store",
-	Args:  cobra.ExactArgs(1),
+	Args:  cobra.ExactValidArgs(1),
 	Long: `
 Sometimes, you just don't need a particular secret anymore.  Remove it!
 `,
