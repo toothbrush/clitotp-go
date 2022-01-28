@@ -9,4 +9,5 @@ require (
 	github.com/spf13/cobra v1.0.1-0.20200923222621-0bc8bfbe596b
 	github.com/spf13/viper v1.7.0
 	github.com/stretchr/testify v1.4.0 // indirect
+	golang.design/x/clipboard v0.6.0
 )

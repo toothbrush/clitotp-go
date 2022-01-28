@@ -12,11 +12,15 @@ import (
 	"strings"
 	"time"
 
+	"golang.design/x/clipboard"
+
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/pquerna/otp/totp"
 	"github.com/spf13/cobra"
 	"github.com/toothbrush/clitotp-go/files"
 )
+
+var copyToClipboard bool
 
 var generateCmd = &cobra.Command{
 	Use:   "generate KEYNAME",
@@ -65,10 +69,22 @@ Pass a filename of something in your $HOME/.totp directory.
 			time.Now(),
 		)
 
+		if copyToClipboard {
+			// Init returns an error if the package is not ready for use.
+			err := clipboard.Init()
+			if err != nil {
+				fmt.Fprintf(os.Stderr, "Oh no, couldn't initialise clipboard: %v\n", err)
+			} else {
+				clipboard.Write(clipboard.FmtText, []byte(otp))
+				fmt.Fprintln(os.Stderr, "TOTP copied to clipboard.")
+			}
+		}
+
 		fmt.Printf("%s", otp)
 	},
 }
 
 func init() {
+	generateCmd.Flags().BoolVarP(&copyToClipboard, "copy", "c", false, "copy to clipboard")
 	rootCmd.AddCommand(generateCmd)
 }
