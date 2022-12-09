@@ -71,6 +71,10 @@ KEYNAME is a filename of something in your $HOME/.totp directory.
 			noSpaceString,
 			time.Now(),
 		)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
 
 		if copyToClipboard {
 			// Init returns an error if the package is not ready for use.
