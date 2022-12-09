@@ -11,15 +11,12 @@ import (
 	"log"
 	"os"
 	"os/exec"
-	"path"
-	"path/filepath"
-	"strings"
 
-	homedir "github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
 	"github.com/toothbrush/clitotp-go/cli"
+	"github.com/toothbrush/clitotp-go/files"
 )
 
 var addCmd = &cobra.Command{
@@ -36,16 +33,9 @@ a new website you've joined, and encrypt it in your TOTP store.
 		return nil, cobra.ShellCompDirectiveNoFileComp
 	},
 	Run: func(cmd *cobra.Command, args []string) {
-		home, err := homedir.Dir()
+		filename, err := files.FullKeyPath(args[0])
 		if err != nil {
-			fmt.Println(err)
-			os.Exit(1)
-		}
-		prefix := filepath.Join(home, ".totp")
-
-		keyname := args[0]
-		if !strings.HasSuffix(keyname, ".gpg") {
-			keyname = keyname + ".gpg"
+			log.Panic(err)
 		}
 
 		recipient := viper.GetString("recipient")
@@ -54,8 +44,6 @@ a new website you've joined, and encrypt it in your TOTP store.
 			log.Panic("Please set a GPG recipient to encrypt to!")
 		}
 		fmt.Fprintf(os.Stderr, "Encrypting to %s.\n", recipient)
-
-		filename := path.Join(prefix, keyname)
 		fmt.Fprintf(os.Stderr, "Will store secret in: %s\n", filename)
 
 		if _, err := os.Stat(filename); err == nil {
