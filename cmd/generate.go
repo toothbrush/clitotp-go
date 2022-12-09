@@ -26,7 +26,10 @@ var generateCmd = &cobra.Command{
 	Use:   "generate KEYNAME",
 	Short: "Generate a TOTP",
 	Long: `
-Pass a filename of something in your $HOME/.totp directory.
+Generate a TOTP and display it on stdout.  Optionally, use the --copy/-c flag to
+copy it to the clipboard.
+
+KEYNAME is a filename of something in your $HOME/.totp directory.
 `,
 	Args: cobra.ExactValidArgs(1),
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {

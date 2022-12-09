@@ -27,8 +27,10 @@ var addCmd = &cobra.Command{
 	Short: "Add a secret to the store",
 	Args:  cobra.ExactArgs(1),
 	Long: `
-Spawn an interactive session to capture a secret, e.g. from a new
-website you've joined, and encrypt it in your TOTP store.
+Adds a secret to your TOTP store.
+
+This command will spawn an interactive session to capture a secret, e.g. from
+a new website you've joined, and encrypt it in your TOTP store.
 `,
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
 		return nil, cobra.ShellCompDirectiveNoFileComp

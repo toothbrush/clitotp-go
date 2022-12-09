@@ -24,6 +24,8 @@ var removeCmd = &cobra.Command{
 	Short: "Remove a secret from the store",
 	Args:  cobra.ExactValidArgs(1),
 	Long: `
+Removes a secret from the store.
+
 Sometimes, you just don't need a particular secret anymore.  Remove it!
 `,
 	ValidArgsFunction: func(cmd *cobra.Command, args []string, toComplete string) ([]string, cobra.ShellCompDirective) {
