@@ -15,6 +15,8 @@ import (
 	"github.com/toothbrush/clitotp-go/files"
 )
 
+var nameOverride string
+
 var qrCmd = &cobra.Command{
 	Use:   "qr KEYNAME",
 	Short: "Generate a QR code to export TOTP secret",
@@ -59,6 +61,12 @@ KEYNAME is a filename of something in your $HOME/.totp directory.
 		}
 
 		issuer := url.QueryEscape(path.Base(filename))
+
+		// allow overriding the "display name" in apps like Google Authenticator
+		if nameOverride != "" {
+			issuer = nameOverride
+		}
+
 		authURI := fmt.Sprintf("otpauth://totp/%s:clitotp-go?secret=%s&issuer=%s",
 			issuer,
 			secret,
@@ -68,5 +76,6 @@ KEYNAME is a filename of something in your $HOME/.totp directory.
 }
 
 func init() {
+	qrCmd.PersistentFlags().StringVarP(&nameOverride, "name", "n", "", "Display name of TOTP entry in Google Authenticator")
 	rootCmd.AddCommand(qrCmd)
 }
