@@ -68,7 +68,7 @@ KEYNAME is a filename of something in your $HOME/.totp directory.
 			}
 		}
 
-		fmt.Printf("%s", otp)
+		fmt.Printf("%s\n", otp)
 	},
 }
 
